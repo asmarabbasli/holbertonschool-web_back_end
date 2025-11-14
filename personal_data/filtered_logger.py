@@ -1,13 +1,25 @@
+#!/usr/bin/env python3
+"""
+Module for filtering sensitive data from log messages.
+"""
+
 import re
+from typing import List
 
-def filter_datum(fields, redaction, message, separator):
-    return re.sub(rf'({"|".join(fields)})=[^ {separator}]*', lambda m: f"{m.group(1)}={redaction}", message)
 
-fields = ["name", "email", "phone", "ssn", "password"]
-messages = [
-    "name=egg;email=egg@sample.com;password=eggcellent;date_of_birth=12/12/1986;",
-    "name=bob;email=bob@example.com;password=bob123;date_of_birth=03/04/1993;"
-]
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
+    """
+    Obfuscates specified fields in a log message.
 
-for message in messages:
-    print(filter_datum(fields, 'xxx', message, ';'))
+    Args:
+        fields (List[str]): List of field names to redact.
+        redaction (str): Replacement string for sensitive values.
+        message (str): Log message string containing key-value pairs.
+        separator (str): Character that separates fields in the message.
+
+    Returns:
+        str: Log message with sensitive fields redacted.
+    """
+    pattern = rf'({"|".join(fields)})=[^ {separator}]*'
+    return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
