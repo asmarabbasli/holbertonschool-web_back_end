@@ -23,3 +23,4 @@ def filter_datum(fields: List[str], redaction: str,
     """
     pattern = rf'({"|".join(fields)})=[^ {separator}]*'
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
+
