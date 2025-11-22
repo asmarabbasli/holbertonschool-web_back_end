@@ -42,4 +42,4 @@ def status_forbidden() -> str:
       - the forbidden route
     """
     abort(403)
-    
+
