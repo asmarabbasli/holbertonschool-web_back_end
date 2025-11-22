@@ -72,3 +72,4 @@ if __name__ == "__main__":
         auth = BasicAuth()
 
     app.run(host=host, port=port)
+
